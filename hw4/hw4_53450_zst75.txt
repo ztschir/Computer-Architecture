@@ -1,0 +1,101 @@
+Homework #: 4
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1. One reason someone would want a small quantum in a round-robin
+scheduler is to see less legacy with processes. Basically, all of the
+processes get equal time in this scheduling scheme and since the quantum 
+is small, this would allow each process to get CPU time more often, but 
+less time while it has the CPU. One argument against a small quantum is 
+the fact that there is the overhead of context switching every time a new 
+process is switched out. If each process only has a very small amount of 
+time on the CPU, then the overhead of the context switch is more of a 
+percentage of what the CPU is being used for, thus the process will end 
+up taking more CPU cycles to finish because of the added overhead.
+
+2. a is public, r is private, g itself is private but the thing it's pointing at 
+seems to be public, d is private, b is public, s is private, p is public.
+
+3. Three copies of c exist, with the values of 10, 15, and 20.
+
+4. False, because Deadlock is a type of starvation, in a sense. For 
+instance, another form of starvation is called Livelock. We could say 
+"Deadlock implies Starvation" and that would be correct.
+
+5. The priority inversion problem is an issue where there are multiple 
+threads, and a very high priority thread is waiting on a low priority 
+thread to finish using a shared resource. This causes the high priority 
+thread to be in a non-ready state, which will cause it not to be run, 
+since the low priority thread still has a lock on the resources. 
+Meanwhile there is a medium priority, which sits in the middle of these 
+two threads WRT priority, so the OS will continuously only run the medium 
+priority thread, since it's the highest priority thread that can be run.
+The solution is to just structure code to not have bad priority. An 
+example situation where this did occur was on the Mars Pathfinder, which 
+caused many problems.
+
+6. Wasn't this the quiz problem we had in section? You may also see the way I 
+implemented this same question in the quiz, I'm pretty sure that way works just as 
+well. I will just modify the answer given to us in section and use it in this 
+situation. Anyway, I will assume we don't don't worry about the smokers health and 
+not keep track of how many cigarettes each of them smoke. Also, assume that the 
+integers paper, tobacco, and match are variables readily accessible by the agent.
+
+a.
+Variable Name   Variable Type   Initial Value   Description
+mutex           smutex_t        smutex_init...  The lock on the table
+smokerDone      scond_t         scond_init...   A CV to watch when smoker done
+agentDone       scond_t         scond_init...   A CV to watch when agent done
+matsOnTable     int*            {0,0,0}         Initial materials on table
+currentSmoker   int             -1              IDs current smoker, -1 for none
+
+b.
+Agent(){
+    smutex_lock(&mutex);
+    
+    // Set the materials on the table
+    matsOnTable[0] = *paper;
+    matsOnTable[1] = *tobacco;
+    matsOnTable[2] = *match;
+    
+    // Set the smoker number which I want to call, these
+    //    correspond with mats on table 
+	//    paper = 0
+	//    tobacco = 1
+	//    match = 2
+    if(*paper == 0)
+		currentSmoker = 0;
+	else if(*tobacco == 0)
+		currentSmoker = 1;
+	else
+		currentSmoker = 2;
+	
+	scond_broadcast(&agentDone, &mutex);
+
+	// Wait until the table is reset
+	while(matsOnTable[0] || matsOnTable[1] || matsOnTable[3])
+    	scond_wait(&smokerDone, &mutex);
+	
+	// Reset current smoker
+	currentSmoker = -1;
+	
+    smutex_unlock(&mutex);
+}
+
+matchSmoker(){
+	smutex_lock(&mutex);
+	
+	while(currentSmoker != 2)
+		scond_wait(&agentDone, &mutex);
+	
+	// Pick up materials from table	
+	matsOnTable[0] = matsOnTable[1] = matsOnTable[2] = 0;
+	
+	scond_broadcast(&smokerDone, &mutex);
+	
+	smutex_unlock(&mutex);
+}
+

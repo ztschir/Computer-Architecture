@@ -1,0 +1,20 @@
+Homework #: 5
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1-1. In this case we have a page directory with 10-bits of addressable space, and then another page directory that has 8-bits of addressable space, then a page table with 6-bits of space. I'm assuming the 8-bits at the end are the offset, to address the individual items in the page. If the page table only has 6-bits of addressable memory, then the size of a single page would be 2^6 addresses or 64 addresses TIMES 4 bytes which is 256 bytes. which would mean that the little trick of storing the page directory in a page would not work, since it would need to be bigger than a page size.
+
+1-2. The size would be 1024, since the page table would be broken up into 256 byte pages.
+
+2. Resident bit - Basically tells the OS or hardware that the address that's being looked up is or is not in main memory.
+
+Clock/Reference bit - This is to assess when the address or page has been accessed last. If the bit is set to true, it means that it has been accessed recently, else the bit has been accessed or referenced earlier. There seems to be a reset of the clock bits of all addressable memory when the page is accessed through a page fault.
+
+Dirty bit - This allows for performance optimizations, by allowing the hardware to know when a memory address has actually changed, and if it has then it can actually write it to the disk. If it hasn't changed, then there is no need to write this back to the disk.
+
+3. This is when the program code or data doesn't fit into a whole page, but since we split everything up into pages, we need to allocate the space in increments of page sizes. In order to help fix this, we could decrease the page size, but other problems occur when doing this.
+
+4. This seems to be a method that allows the use of splitting up free space within the page to help alleviate the issues with large page sizes. Each segment is contiguous in memory, but the data the combined segments represent are not contiguous. 

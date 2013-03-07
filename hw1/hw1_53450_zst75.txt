@@ -1,0 +1,25 @@
+Homework #: 1
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1. The Loader
+
+2.a. The Operating System should not give each application the full processor allocation until it no longer needs it, this would produce a lag in the overall performance. This needs to be broken down into processes that can be stopped if something else needs the processor, and then restarted when it is scheduled.
+
+2.b. This really shouldn’t matter, since each task will need time on the processor to get the expected results, maybe if one of the tasks had a higher priority, then it would matter. If I do need to answer this ultimatum, then I would schedule the shorter task first, because as a human, I can see the results of the short task first, then wait for the expected longer task. 
+
+2.c. The OS should give the active applications (The ones actually processing) the amount of memory it needs over the applications that are not currently processing. If the set of applications doesn’t fit into main memory, then the OS could throw an exception or unload an inactive application into separate memory storage if available, then load the active application into memory.
+
+3. The operating system would need to recognize that there is “protected” or “accessed” memory space, so it wouldn’t allocate that to an application that could corrupt it. This could be used with a piece of hardware that would check a process code for every memory access, and verify it is the correct application accessing the right memory. Mostly, the OS would need to have blocks of memory allocated for each program, so that programs that don’t have access to that memory, can’t access it.
+
+4. An executable is a list of machine instructions compiled into a file, ready to be loaded into memory. A process is a task that the operating system has forked after a program has been loaded into memory. A process is an instance of a program. A program is the result of loading the machine instructions from the executable into memory.
+
+5. Throwing Exceptions – Dividing by zero, Using a system call or trap, and Device or Timer interrupt.
+
+6. This would end up having 32 processes running, because the root process will create the fork and exec processes, then each one of those processes will call two more, so on and so forth until it’s been split up into 32 different processes. 2^5 = 32.
+
+7. The System call is about 15 to 20 times more expensive than a procedure call, this is because System calls have to drop down to the kernel level and give control to the OS. This requires things the OS to do a context switch, then “trap”, pass the control to OS. The OS then has to determine what System call was made and what it must do, and then there is exceptions checking after the process have run. All of this makes for the time gap.
+

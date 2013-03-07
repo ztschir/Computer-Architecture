@@ -1,0 +1,64 @@
+Homework #:3
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1. Fairness and throughput are almost opposite goals for a scheduler, since it is the goal of the scheduler to get as many processes run per unit of time, to increase throughput. Fairness, on the other hand, favors each process getting a certain amount of time, not necessarily the same amount. An example of a fair scheduler making bad use of the CPU is when it schedules a process to run for a long time, which stops the throughput by only running one process. The opposite, is when a process that needs a long time gets context switched out several times just to run non-essential processes, just to get more processes run per unit of time.
+
+2. Yes, under the assumption that every process doesn't run atomically. Just the fact that a process can be be interrupted and can call a different system call is reason enough to need a critical section. Being on a uni-processor system has no effect.
+
+3. 
+
+class WaterGenerator{
+public:
+   WaterGenerator();
+   ~WaterGenerator();
+   void generateHydrogen();
+   void generateOxygen();
+   void generateWater();
+
+private:
+   int waterCount;
+   int hydrogenCount;
+   int oxygenCount;
+   smutex_t mutex;
+   scond_t nonempty;
+}
+
+WaterGenerator::WaterGenerator(){
+   waterCount = 0;
+   oxygenCount = 0;
+   hydrogenCount = 0;
+   scond_init(&nonempty);
+   smutex_init(&mutex);
+}
+
+WaterGenerator::~WaterGenerator(){
+   smutex_destroy(&mutex);
+   scond_destroy(&nonempty);
+}
+
+WaterGenerator::generateHydrogen(){
+   smutex_lock(&&mutex);
+   ++hydrogenCount;
+   scond_broadcast(&nonempty, &mutex);
+   smutex_unlock(&mutex);
+}
+
+WaterGenerator::generateOxygen(){
+   smutex_lock(&&mutex);
+   ++oxygenCount;
+   scond_broadcast(&nonempty, &mutex);
+   smutex_unlock(&mutex);
+}
+
+WaterGenerator::generateWater(){
+   smutex_lock(&mutex);
+   while(hydrogenCount < 2 && oxygenCount < 1)
+      scond_wait(&nonempty);
+   --oxygenCount;
+   ----hydrogenNonempty;
+   smutex_unlock(&&mutex);
+}

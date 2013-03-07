@@ -1,0 +1,92 @@
+Homework #: 2
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1. I really didn't get much information from the books, so I researched online for this one, I found many good articles. From my understanding, User threads are created using a threads library, and doesn't require any access to low level instructions like system calls. A Kernel thread maps to a single process, versus User threads can have many-to-one for each process. User threads also blocks an entire process, if just one of the threads blocks. A kernel thread is scheduled independently by the Kernel, so if one thread blocks, the others still run. Kernel threads are slower to create, terminate, and synchronize and the overhead is much greater, but concurrency can now be achieved.
+
+2.a. A reentrant function is a subset of a Thread-safe function, but not an equivalent. These functions don't reference any shared data between, so they are inherently thread-safe. These functions area also more efficient than a non-reentrant thread-safe function, because there is no synchronization involved. 
+
+2.b. A non-reentrant function will need to synchronize it's changes with all other threads that have called this function. This adds overhead and is less effluence than a reentrant function, since the reentrant function doesn't need to synchronize. 
+
+2.c. If you have multi-threaded code, it would be better to have non-dependent code that can run on each thread without the worry of synchronizing with the other threads. Try and make reentrant code if possible, when writing multi-threaded code.
+
+3. 
+Code:
+
+#include <stdio.h>
+#include <pthread.h>
+
+void printThread(void *threadNumber){
+   int count;
+   for(count = 1; count <= 10; ++count){
+      printf("%d: %d \n", (int)(threadNumber), count);
+   }
+}
+
+int main(){
+   pthread_t thread1, thread2, thread3;
+   int t1 = 1;
+   int t2 = 2;
+   int t3 = 3;
+
+   /* Cheating a little bit here, by passing an int as a pointer */
+   pthread_create(&thread1, NULL, (void *) &printThread, (void*) t1);
+   pthread_create(&thread2, NULL, (void *) &printThread, (void*) t2);
+   pthread_create(&thread3, NULL, (void *) &printThread, (void*) t3);
+
+   pthread_join(thread1, NULL);
+   pthread_join(thread2, NULL);
+   pthread_join(thread3, NULL);
+
+   printf("All threads are finished\n");
+   return 0;
+}
+
+Output: 
+
+3: 1 
+3: 2 
+3: 3 
+3: 4 
+3: 5 
+3: 6 
+3: 7 
+3: 8 
+3: 9 
+3: 10 
+1: 1 
+1: 2 
+1: 3 
+1: 4 
+1: 5 
+1: 6 
+1: 7 
+1: 8 
+1: 9 
+1: 10 
+2: 1 
+2: 2 
+2: 3 
+2: 4 
+2: 5 
+2: 6 
+2: 7 
+2: 8 
+2: 9 
+2: 10 
+All threads are finished
+
+The reason "thread3" started first, is because the OS schedules these user threads and decides which goes first. We would need to write some more coding to get the first thread to go first.
+
+4.a. Output: i = 0
+The if statement checking for the parent process waits for the child process to complete, so which ever runs first, the output will always be 0. This is assuming that both threads can't be run at exactly the same time and the variable i won't be accessed at the same time, causing some sort of weird race condition. 
+
+4.b. No, there are no other possible outputs, I explained in the previous answer.
+
+5.a. Output: i = 0, i = -1, i = 1
+The conditions after the "createThread" function call stop the original thread before printing out the output, so both threads must end before printing the output. This can take three different paths, one path is to pull in i into the register for thread1, then start and finish thread2 before finishing thread1. This will cause i not to be written until thread2 finishs, but it will be overwritten when thread1 is finished. Then for i = 1, it's the opposite. For i = 0, the threads just have to finish before the other one starts. 
+
+5.b There shouldn't be any besides -1, 0, or 1, because those are really the only possibilities. I'm not really sure how you could force the program to execute the same time besides synchronizing the threads, meaning that one thread waits on the other to finish before starting. 
