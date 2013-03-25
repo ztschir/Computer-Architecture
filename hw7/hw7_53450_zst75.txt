@@ -1,0 +1,17 @@
+Homework #: 7
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1.  a.The CPU gets an interrupt
+	b.The CPU throws an exception to the OS.
+	c.The OS handles the exception based on what exception was thrown.
+	d.The OS then runs the process or a different one, and the CPU is put back to work.
+	
+2. Ben needs to translate this first before changing the cr3, this will result in a bad translation of a virtual address. This address will point to somewhere in the kernel space.
+
+3.  1.d
+	2.d
+	3.d
