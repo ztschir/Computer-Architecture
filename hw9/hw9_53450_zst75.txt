@@ -1,0 +1,21 @@
+Homework #: 9
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+1. Yes, because then one doesn't know what has been allocated or not if there is no way to see persisted data.
+
+2. This would degrade the performance greatly, since now there is an extra write/read/lookup for every transaction with the hard drive.
+
+3. False
+
+4. This question is a little confusing, but I'll answer with the assumption that we are unable to store a smaller file even though there is enough room for that file or something larger.
+   1. No, since the file size 
+   2. Yes, This doesn't have any way to allocate this file unless it has the room
+   3. Yes, Same as 2.
+   4. Yes, probably because of fragmentation
+
+5. a. A multi-level index
+   b. Contiguous

@@ -1,0 +1,46 @@
+Homework #: 8
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+
+1. I would not approve of this design, because it says nothing about saving what state the 
+code is in, aka the registers and pointers that explain the current state of the code. If you
+did this, then the only way I could think about getting this to work is by just saving these 
+registers to the swap space, and not the actual code. 
+
+2. a. (10*6) + (12*6) + (2*6) + (18*6) + (38*6) + (34*6) + (32*6) = 872 ms
+   b. (0*6) + (2*6) + (12*6) + (4*6) + (4*6) + (36*6) + (2*6) = 360 ms
+   c. (0*6) + (2*6) + (16*6) + (2*6) + (30*6) + (4*6) + (4*6) = 348 ms
+
+3. Specs:
+   TX speed = 3 Gigabits per second
+   Avg Lag = 5.5 ms
+   Sector = 512 bytes
+   Drive ready time (unsure how to use this) = 4 seconds
+   Seek times:
+   	Read = 12 ms
+	track-to-track = 2 ms
+   Rotational speed = 5400 RPM
+
+   Conversions:
+   IST - Inital startup time = 4000 ms
+   TTES - Transfer time for each sector(Max) = 0.0012 ms
+   ROT - Average time to rotate to correct location in disk = 11.11/2 ms = 5.56 ms
+   READ - Average seek time to read = 12 ms
+   TRACK - Average seek time to move to another track = 2 ms
+
+
+   IST + 10000*(TTES + ROT + READ + TRACK) = 4000 + 10000*(0.0012 + 5.56 + 12 + 2) = 199612 ms
+   With the drive in steady state (aka. no IST) = 195612 ms
+
+4. Sector size = 1024 bytes
+   Tracks = 2048
+   Sectors/track = 512
+   Size of disk = Sector size * Sectors/track * Tracks = 1024 * 2048 * 512 = 1 gigabyte
+
+Ref:
+http://en.wikipedia.org/wiki/Shortest_seek_first 
+http://en.wikipedia.org/wiki/LOOK_algorithm

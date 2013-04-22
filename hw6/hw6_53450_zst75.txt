@@ -7,10 +7,10 @@ Unique Number: 53450
 
 1. A virtual address is the address used by the user programs to interect with memory locations, in the terms of JOS, this is also the logical address. The physical address is the address used to point to a specific place in memory. The two are mapped through a page directory, page table, and a page. The virtual address and CR3 give enough information to map these two values together.
 
-2. 16 bits would need to be allocated for an even distribution, so a total of 512 addresses accessable.
-   4 bits represent the page number
-   Assuming the needed page table number and offset the virtual address would be 11 bits, but 5 bits could be used for permissions or something.
-   128 bytes
+2. - 10 bits.
+   - 4 bits.
+   - 12 bits
+   - 256 bytes
 
 3. The cause of page faults are that the operating system gets invoked when trying to access memory that's invalid in some way. This can be anything from trying to access something outside of a allocated page range or something that needs to be brought from the disk. The effects on a running process can be a seg fault or just a long access time. This just depends on whether the page fault throws an exception.
 
