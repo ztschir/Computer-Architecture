@@ -1,0 +1,41 @@
+Homework #: 10
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+
+1. 1. fdt[0-3] open
+   2. fdt[1,2] open
+   3. fdt[1,2] open
+   4. fdt[0,1,2] open
+   5. fdt[0,2] open
+
+   This looks like it reassigns a file descriptor 
+
+2. I recognized all of these machines when running traceroute on http://www.london.gov.uk/:
+
+   cs-gw.cs.utexas.edu 
+   cs45k-cs65k-po1-p2p.aces.utexas.edu 
+   noca9-n7k-vlan691-cs.gw.utexas.edu
+   noca2-ten7-1-noca9-n7k.gw.utexas.edu
+   nocb1-ten4-1-noca9-n7k.gw.utexas.edu
+
+   I also noticed ISPs:
+   
+   aust-utnoc-core-ge-6-0-0-0.tx-bb.net
+   dap-brdr-04.inet.qwest.net
+
+   I didn't notice any cities besides austin
+
+   When I ran it a second time, all of the domain names turned into ip addresses. 
+
+3. Since there were no instructions as to what level of detail we need to go into, I'll just assume a top level aproach. A server needs to open a socket and wait for a connection. When a connection is made, the server responds and creates a new thread for the connection so it can handle multiple connections.
+
+4. a is the fastest, by about 1000 microseconds from c.
+
+5. A. Wrong level of abstraction, assuming everything works, high overhead, bad structuring. 
+   B. I don't remember covering this in class (I couldn't find anything in my notes), but I looked online for RPC and system calls and found that there are difficulties with passing pointers around. Whole data objects need to be passed around for a system call on RPC.
+
+source:http://www.isi.edu/~faber/cs402/nachos_doc/nethelp/node5.html
