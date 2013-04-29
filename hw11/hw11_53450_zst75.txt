@@ -1,0 +1,19 @@
+Homework #: 11
+Student Name: Zachary Tschirhart
+EID: zst75
+CS login: zst75 
+Email address: ztschir@gmail.com
+Unique Number: 53450
+
+
+1. A. Wrong level of abstraction, assuming everything works, high overhead, bad structuring. 
+   B. I don't remember covering this in class (I couldn't find anything in my notes), but I looked online for RPC and system calls and found that there are difficulties with passing pointers around. Whole data objects need to be passed around for a system call on RPC.
+
+source:http://www.isi.edu/~faber/cs402/nachos_doc/nethelp/node5.html
+
+2. b
+
+3. Assuming we aren't worried about untruthful messages, then we only need one machine to receive a commit message.
+
+4. A exception is thrown to get into the kernel, then the kernel saves the registers to the stack frame for that program, then it loads the registers with the new content and sets the cr3 and eip for the new program. then it returns to user level and runs the new program.
+
